@@ -10,13 +10,13 @@ export default function NavBar() {
       </Link>
       <div className="space-x-2">
         <Link href="/classroom">
-          <Button variant="ghost">Classroom</Button>
+          <Button className="bg-transparent hover:bg-gray-100 text-indigo-600 shadow-none">Classroom</Button>
         </Link>
         <Link href="/instructor">
-          <Button variant="ghost">Instructor</Button>
+          <Button className="bg-transparent hover:bg-gray-100 text-indigo-600 shadow-none">Instructor</Button>
         </Link>
         <Link href="/profile">
-          <Button variant="ghost">Profile</Button>
+          <Button className="bg-transparent hover:bg-gray-100 text-indigo-600 shadow-none">Profile</Button>
         </Link>
       </div>
     </nav>

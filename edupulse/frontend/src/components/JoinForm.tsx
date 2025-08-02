@@ -1,7 +1,7 @@
-// src/components/JoinForm.tsx
+
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -10,10 +10,17 @@ export default function JoinForm() {
   const [name, setName] = useState("");
   const router = useRouter();
 
+
   const handleJoin = () => {
     if (name.trim()) {
       sessionStorage.setItem("studentName", name);
       router.push("/classroom");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleJoin();
     }
   };
 
@@ -22,9 +29,11 @@ export default function JoinForm() {
       <Input
         placeholder="Enter your name"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+        onKeyDown={handleKeyDown}
+        aria-label="Enter your name"
       />
-      <Button onClick={handleJoin} className="w-full">
+      <Button onClick={handleJoin} className="w-full" disabled={!name.trim()}>
         Join Class
       </Button>
     </div>
