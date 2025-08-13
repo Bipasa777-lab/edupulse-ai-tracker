@@ -1,17 +1,29 @@
-from flask import Blueprint, Response, jsonify
-from app.services.video_stream import gen_frames
-from app.services.alert_engine import get_status
+# backend/app/routes/detection_routes.py
+from flask import Blueprint, request, jsonify
 
-# Create a blueprint for detection-related routes
-detection_bp = Blueprint('detection_bp', __name__)
+detection_bp = Blueprint('detection', __name__)
 
-@detection_bp.route('/video')
-def video():
-    # Streams the webcam feed using multipart/x-mixed-replace
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+# Dummy state for instructor dashboard
+_students = [
+    {"id": 1, "name": "John Doe", "status": "attentive"},
+    {"id": 2, "name": "Jane Smith", "status": "attentive"},
+    {"id": 3, "name": "Ali Khan", "status": "distracted"},
+]
 
-@detection_bp.route('/status')
-def status():
-    # Returns current attentiveness status (e.g., "focused", "distracted")
-    status = get_status()
-    return jsonify({"status": status})
+@detection_bp.route('/status', methods=['POST'])
+def status_check():
+    data = request.get_json() or {}
+    student_id = data.get('student_id')
+    # placeholder: flip random or return attentive
+    # For demo, return based on student_id parity
+    if student_id and str(student_id).endswith('3'):
+        status = 'distracted'
+    else:
+        status = 'attentive'
+    # optionally log here
+    return jsonify({"student_id": student_id, "status": status})
+
+@detection_bp.route('/all', methods=['GET'])
+def all_students():
+    return jsonify(_students)
+
